@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
           PlanMakerScreen.routeName: (ctx) => const PlanMakerScreen(),
           WorkoutCreatorScreen.routeName: (ctx) => const WorkoutCreatorScreen(),
           HowToScreen.routeName: (ctx) => const HowToScreen(),
-          ExerciseLibraryScreen.routeName: (ctx) => const ExerciseLibraryScreen(),
+          ExerciseLibraryScreen.routeName: (ctx) => ExerciseLibraryScreen(),
       },
     );
   }

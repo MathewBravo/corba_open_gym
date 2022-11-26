@@ -3,7 +3,24 @@ import 'package:flutter/material.dart';
 
 class ExerciseLibraryScreen extends StatelessWidget {
   static const routeName = '/exercise-library';
-  const ExerciseLibraryScreen({Key? key}) : super(key: key);
+  List<String> exerciseTypes = [
+    'Back',
+    'Abs',
+    'Traps',
+    'Triceps',
+    'Forearms',
+    'Calves',
+    'Front Delts',
+    'Glutes',
+    'Chest',
+    'Biceps',
+    'Quads',
+    'Hamstrings',
+    'Side Delts',
+    'Rear Delts',
+  ];
+
+  ExerciseLibraryScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -12,11 +29,25 @@ class ExerciseLibraryScreen extends StatelessWidget {
         title: const Text('Exercise Library'),
       ),
       drawer: MainDrawer(),
-      body: const Center(
-        child: ListView.builder(itemBuilder: itemBuilder, itemCount: 0,),
+      body: ListView.builder(
+        itemBuilder: (BuildContext context, int index) {
+          return ListTile(
+            title: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Text(
+                exerciseTypes[index],
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+            ),
+            onTap: () {
+              print(exerciseTypes[index]);
+            },
+          );
+        },
+        itemCount: exerciseTypes.length,
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: (){},
+        onPressed: () {},
         tooltip: 'Add Exercise To Library',
         child: const Icon(Icons.add),
       ),
