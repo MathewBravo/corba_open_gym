@@ -1,9 +1,17 @@
-import 'package:corba_open_gym/objectbox.g.dart';
+import 'package:objectbox/objectbox.dart';
 
 @Entity()
 class Exercise {
+  int id;
   String name;
   List<String> bodyparts;
   double barWeight;
-  Exercise({required this.name, required this.barWeight, required this.bodyparts});
+  bool barInKG;
+
+  Exercise(
+      {this.id = 0,
+      required this.name,
+      required this.barWeight,
+      required this.bodyparts,
+      required this.barInKG});
 }

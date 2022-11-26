@@ -26,17 +26,55 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "3:310609718755454316",
+      "lastPropertyId": "5:1106314583225228587",
+      "name": "Exercise",
+      "properties": [
+        {
+          "id": "1:3479029774810589655",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:750398773275948113",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "3:3313780893936393180",
+          "name": "bodyparts",
+          "type": 30
+        },
+        {
+          "id": "4:2646809964219244714",
+          "name": "barWeight",
+          "type": 8
+        },
+        {
+          "id": "5:1106314583225228587",
+          "name": "barInKG",
+          "type": 1
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "1:2878909862487457844",
+  "lastEntityId": "3:310609718755454316",
   "lastIndexId": "0:0",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
   "modelVersion": 5,
   "modelVersionParserMinimum": 5,
-  "retiredEntityUids": [],
+  "retiredEntityUids": [
+    5527646497449331125
+  ],
   "retiredIndexUids": [],
-  "retiredPropertyUids": [],
+  "retiredPropertyUids": [
+    4683543620969062677
+  ],
   "retiredRelationUids": [],
   "version": 1
 }

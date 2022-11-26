@@ -14,6 +14,7 @@ import 'package:objectbox/internal.dart'; // generated code can access "internal
 import 'package:objectbox/objectbox.dart';
 import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
 
+import 'models/exercises.dart';
 import 'models/user_settings.dart';
 
 export 'package:objectbox/objectbox.dart'; // so that callers only have to import this file
@@ -42,6 +43,40 @@ final _entities = <ModelEntity>[
             flags: 0)
       ],
       relations: <ModelRelation>[],
+      backlinks: <ModelBacklink>[]),
+  ModelEntity(
+      id: const IdUid(3, 310609718755454316),
+      name: 'Exercise',
+      lastPropertyId: const IdUid(5, 1106314583225228587),
+      flags: 0,
+      properties: <ModelProperty>[
+        ModelProperty(
+            id: const IdUid(1, 3479029774810589655),
+            name: 'id',
+            type: 6,
+            flags: 1),
+        ModelProperty(
+            id: const IdUid(2, 750398773275948113),
+            name: 'name',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(3, 3313780893936393180),
+            name: 'bodyparts',
+            type: 30,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(4, 2646809964219244714),
+            name: 'barWeight',
+            type: 8,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(5, 1106314583225228587),
+            name: 'barInKG',
+            type: 1,
+            flags: 0)
+      ],
+      relations: <ModelRelation>[],
       backlinks: <ModelBacklink>[])
 ];
 
@@ -65,13 +100,13 @@ Future<Store> openStore(
 ModelDefinition getObjectBoxModel() {
   final model = ModelInfo(
       entities: _entities,
-      lastEntityId: const IdUid(1, 2878909862487457844),
+      lastEntityId: const IdUid(3, 310609718755454316),
       lastIndexId: const IdUid(0, 0),
       lastRelationId: const IdUid(0, 0),
       lastSequenceId: const IdUid(0, 0),
-      retiredEntityUids: const [],
+      retiredEntityUids: const [5527646497449331125],
       retiredIndexUids: const [],
-      retiredPropertyUids: const [],
+      retiredPropertyUids: const [4683543620969062677],
       retiredRelationUids: const [],
       modelVersion: 5,
       modelVersionParserMinimum: 5,
@@ -106,6 +141,46 @@ ModelDefinition getObjectBoxModel() {
                   const fb.Float64Reader().vTableGet(buffer, rootOffset, 8, 0));
 
           return object;
+        }),
+    Exercise: EntityDefinition<Exercise>(
+        model: _entities[1],
+        toOneRelations: (Exercise object) => [],
+        toManyRelations: (Exercise object) => {},
+        getId: (Exercise object) => object.id,
+        setId: (Exercise object, int id) {
+          object.id = id;
+        },
+        objectToFB: (Exercise object, fb.Builder fbb) {
+          final nameOffset = fbb.writeString(object.name);
+          final bodypartsOffset = fbb.writeList(
+              object.bodyparts.map(fbb.writeString).toList(growable: false));
+          fbb.startTable(6);
+          fbb.addInt64(0, object.id);
+          fbb.addOffset(1, nameOffset);
+          fbb.addOffset(2, bodypartsOffset);
+          fbb.addFloat64(3, object.barWeight);
+          fbb.addBool(4, object.barInKG);
+          fbb.finish(fbb.endTable());
+          return object.id;
+        },
+        objectFromFB: (Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+
+          final object = Exercise(
+              id: const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0),
+              name: const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 6, ''),
+              barWeight:
+                  const fb.Float64Reader().vTableGet(buffer, rootOffset, 10, 0),
+              bodyparts: const fb.ListReader<String>(
+                      fb.StringReader(asciiOptimization: true),
+                      lazy: false)
+                  .vTableGet(buffer, rootOffset, 8, []),
+              barInKG: const fb.BoolReader()
+                  .vTableGet(buffer, rootOffset, 12, false));
+
+          return object;
         })
   };
 
@@ -125,4 +200,25 @@ class UserSettings_ {
   /// see [UserSettings.lowestPlate]
   static final lowestPlate =
       QueryDoubleProperty<UserSettings>(_entities[0].properties[2]);
+}
+
+/// [Exercise] entity fields to define ObjectBox queries.
+class Exercise_ {
+  /// see [Exercise.id]
+  static final id = QueryIntegerProperty<Exercise>(_entities[1].properties[0]);
+
+  /// see [Exercise.name]
+  static final name = QueryStringProperty<Exercise>(_entities[1].properties[1]);
+
+  /// see [Exercise.bodyparts]
+  static final bodyparts =
+      QueryStringVectorProperty<Exercise>(_entities[1].properties[2]);
+
+  /// see [Exercise.barWeight]
+  static final barWeight =
+      QueryDoubleProperty<Exercise>(_entities[1].properties[3]);
+
+  /// see [Exercise.barInKG]
+  static final barInKG =
+      QueryBooleanProperty<Exercise>(_entities[1].properties[4]);
 }

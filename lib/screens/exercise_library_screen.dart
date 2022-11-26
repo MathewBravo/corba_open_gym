@@ -1,9 +1,15 @@
+import 'package:corba_open_gym/main.dart';
+import 'package:corba_open_gym/models/exercise_library.dart';
+import 'package:corba_open_gym/screens/exercise_creation_screen.dart';
+import 'package:corba_open_gym/screens/exercise_for_category_screen.dart';
 import 'package:corba_open_gym/widgets/main_drawer.dart';
 import 'package:flutter/material.dart';
 
 class ExerciseLibraryScreen extends StatelessWidget {
   static const routeName = '/exercise-library';
+
   List<String> exerciseTypes = [
+    'All',
     'Back',
     'Abs',
     'Traps',
@@ -40,14 +46,25 @@ class ExerciseLibraryScreen extends StatelessWidget {
               ),
             ),
             onTap: () {
-              print(exerciseTypes[index]);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ExerciseForCategoryScreen(
+                          category: exerciseTypes[index])));
             },
           );
         },
         itemCount: exerciseTypes.length,
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ExerciseCreationScreen(
+                        exerciseCategories: exerciseTypes,
+                      )));
+        },
         tooltip: 'Add Exercise To Library',
         child: const Icon(Icons.add),
       ),
