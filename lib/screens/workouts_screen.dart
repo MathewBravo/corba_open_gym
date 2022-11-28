@@ -1,8 +1,10 @@
+import 'package:corba_open_gym/screens/workout_creator_screen.dart';
 import 'package:corba_open_gym/widgets/main_drawer.dart';
 import 'package:flutter/material.dart';
 
 class WorkoutsScreen extends StatelessWidget {
   static const routeName = '/workouts';
+
   const WorkoutsScreen({Key? key}) : super(key: key);
 
   @override
@@ -15,13 +17,14 @@ class WorkoutsScreen extends StatelessWidget {
       body: const Center(
         child: Text('Workouts'),
       ),
-     floatingActionButton: FloatingActionButton(
-       onPressed: () {
-         print('clicked add new');
-       },
-       tooltip: 'Add A New Workout',
-       child: const Icon(Icons.add),
-     ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => WorkoutCreatorScreen()));
+        },
+        tooltip: 'Add A New Workout',
+        child: const Icon(Icons.add),
+      ),
     );
   }
 }

@@ -3,8 +3,9 @@ import '../models/exercises.dart';
 
 class ExerciseCreationScreen extends StatefulWidget {
   final List<String> exerciseCategories;
+  final List<Exercise> existingExercises;
 
-  const ExerciseCreationScreen({Key? key, required this.exerciseCategories})
+  const ExerciseCreationScreen({Key? key, required this.exerciseCategories, required this.existingExercises})
       : super(key: key);
 
   static const List<Widget> unitsOfMeasure = <Widget>[

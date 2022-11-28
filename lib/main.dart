@@ -18,15 +18,15 @@ Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   objectBox = await ObjectBox.init();
   late final List<Exercise>? _checkPopulation;
-  objectBox.deleteAllLibrary();
+  // objectBox.deleteAllLibrary();
   // TODO: FINISH DEFAULT LIST
   _checkPopulation = objectBox.getAllLibrary();
-  // if (_checkPopulation!.isEmpty) {
-  //   defaultExercises = DEFAULT_EXERCISES;
-  //   objectBox.addDefaultExercises(defaultExercises);
-  // }else{
-  print(_checkPopulation?.length);
-  // }
+  if (_checkPopulation!.isEmpty) {
+    defaultExercises = DEFAULT_EXERCISES;
+    objectBox.addDefaultExercises(defaultExercises);
+  } else {
+    print(_checkPopulation?.length);
+  }
   SystemChrome.setPreferredOrientations(
           [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown])
       .then((value) => runApp(const MyApp()));
@@ -51,9 +51,9 @@ class MyApp extends StatelessWidget {
         UserSettingsScreen.routeName: (ctx) => const UserSettingsScreen(),
         WorkoutsScreen.routeName: (ctx) => const WorkoutsScreen(),
         PlanMakerScreen.routeName: (ctx) => const PlanMakerScreen(),
-        WorkoutCreatorScreen.routeName: (ctx) => const WorkoutCreatorScreen(),
+        WorkoutCreatorScreen.routeName: (ctx) => WorkoutCreatorScreen(),
         HowToScreen.routeName: (ctx) => const HowToScreen(),
-        ExerciseLibraryScreen.routeName: (ctx) => ExerciseLibraryScreen(),
+        ExerciseLibraryScreen.routeName: (ctx) => const ExerciseLibraryScreen(),
       },
     );
   }
