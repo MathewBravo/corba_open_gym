@@ -25,6 +25,13 @@ class _ExerciseCreationScreenState extends State<ExerciseCreationScreen> {
   final List<bool> _selectedUnitOfMeasure = <bool>[false, true];
   final List<String> _filters = <String>[];
 
+  @override
+  void dispose() {
+    _exerciseNameController.dispose();
+    _barWeightController.dispose();
+    super.dispose();
+  }
+
   void setUnitOfMeasure(index) {
     if (index == 0) {
       barInKG = true;

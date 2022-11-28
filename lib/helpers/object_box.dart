@@ -21,7 +21,7 @@ class ObjectBox {
 
   // UserSettings
   UserSettings? getUserSettings(int id) => _userSettingsBox.get(id);
-
+  List<UserSettings> getAllSettings() => _userSettingsBox.getAll();
   int insertNewSettings(UserSettings userSettings) =>
       _userSettingsBox.put(userSettings);
 
@@ -29,14 +29,10 @@ class ObjectBox {
 
   //ExerciseLibrary
   Exercise? getExerciseLibrary(int id) => _exerciseLibrary.get(id);
-
-  Query<Exercise> getAllByCategory(String category) =>
-      _exerciseLibrary.query(Exercise_.bodyparts.contains(category)).build();
-
+  List<Exercise> getExerciseByCategory(String category) => _exerciseLibrary.query(Exercise_.bodyparts.contains(category)).build().find();
   List<Exercise>? getAllLibrary() => _exerciseLibrary.getAll();
-
-  int insertNewLibrary(Exercise exerciseLibrary) =>
-      _exerciseLibrary.put(exerciseLibrary);
-
+  List<int> addDefaultExercises(List<Exercise> exercises) => _exerciseLibrary.putMany(exercises);
+  int insertNewExercise(Exercise exercise) => _exerciseLibrary.put(exercise);
   bool deleteExercise(int id) => _exerciseLibrary.remove(id);
+  int deleteAllLibrary() => _exerciseLibrary.removeAll();
 }

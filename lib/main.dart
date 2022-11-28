@@ -8,13 +8,28 @@ import 'package:corba_open_gym/screens/workouts_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'helpers/object_box.dart';
+import 'models/exercises.dart';
+import 'helpers/default_exercises.dart';
 
 late ObjectBox objectBox;
+late final List<Exercise> defaultExercises;
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   objectBox = await ObjectBox.init();
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]).then((value) => runApp(const MyApp()));
+  late final List<Exercise>? _checkPopulation;
+  objectBox.deleteAllLibrary();
+  // TODO: FINISH DEFAULT LIST
+  _checkPopulation = objectBox.getAllLibrary();
+  // if (_checkPopulation!.isEmpty) {
+  //   defaultExercises = DEFAULT_EXERCISES;
+  //   objectBox.addDefaultExercises(defaultExercises);
+  // }else{
+  print(_checkPopulation?.length);
+  // }
+  SystemChrome.setPreferredOrientations(
+          [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown])
+      .then((value) => runApp(const MyApp()));
   runApp(const MyApp());
 }
 
@@ -27,22 +42,19 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-        textTheme: const TextTheme(
-          bodyMedium: TextStyle(fontSize: 18),
-        )
-      ),
+          primarySwatch: Colors.blue,
+          textTheme: const TextTheme(
+            bodyMedium: TextStyle(fontSize: 18),
+          )),
       home: const HomeScreen(),
-      routes:{
-          UserSettingsScreen.routeName: (ctx) => const UserSettingsScreen(),
-          WorkoutsScreen.routeName: (ctx) => const WorkoutsScreen(),
-          PlanMakerScreen.routeName: (ctx) => const PlanMakerScreen(),
-          WorkoutCreatorScreen.routeName: (ctx) => const WorkoutCreatorScreen(),
-          HowToScreen.routeName: (ctx) => const HowToScreen(),
-          ExerciseLibraryScreen.routeName: (ctx) => ExerciseLibraryScreen(),
+      routes: {
+        UserSettingsScreen.routeName: (ctx) => const UserSettingsScreen(),
+        WorkoutsScreen.routeName: (ctx) => const WorkoutsScreen(),
+        PlanMakerScreen.routeName: (ctx) => const PlanMakerScreen(),
+        WorkoutCreatorScreen.routeName: (ctx) => const WorkoutCreatorScreen(),
+        HowToScreen.routeName: (ctx) => const HowToScreen(),
+        ExerciseLibraryScreen.routeName: (ctx) => ExerciseLibraryScreen(),
       },
     );
   }
 }
-
-

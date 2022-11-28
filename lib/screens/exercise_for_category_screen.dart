@@ -15,21 +15,21 @@ class ExerciseForCategoryScreen extends StatefulWidget {
 }
 
 class _ExerciseForCategoryScreenState extends State<ExerciseForCategoryScreen> {
-  late final Query<Exercise> _exercises;
-  late final List<Exercise> displayLibrary;
+  late final List<Exercise> _exercises;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _exercises = objectBox.getAllByCategory(widget.category);
-    if(_exercises != null){
+    _exercises = objectBox.getExerciseByCategory(widget.category);
+
+    if (_exercises != null) {
       setDisplayLibrary(_exercises);
     }
   }
 
-  void setDisplayLibrary(Query<Exercise> exercises){
-    displayLibrary = exercises as List<Exercise>;
+  void setDisplayLibrary(List<Exercise> exercises) {
+    print(exercises.length);
   }
 
   @override
@@ -37,6 +37,13 @@ class _ExerciseForCategoryScreenState extends State<ExerciseForCategoryScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('${widget.category} Exercises'),
+      ),
+      body: Container(
+        child: ListView.builder(
+          itemBuilder: (context, index) =>
+              ListTile(title: Text(_exercises[index].name)),
+          itemCount: _exercises.length,
+        ),
       ),
     );
   }

@@ -1,5 +1,3 @@
-import 'package:corba_open_gym/main.dart';
-import 'package:corba_open_gym/models/exercise_library.dart';
 import 'package:corba_open_gym/screens/exercise_creation_screen.dart';
 import 'package:corba_open_gym/screens/exercise_for_category_screen.dart';
 import 'package:corba_open_gym/widgets/main_drawer.dart';

@@ -25,12 +25,15 @@ class UserSettingsScreen extends StatefulWidget {
 
 class _UserSettingsScreenState extends State<UserSettingsScreen> {
   late final UserSettings? _defaultSettings;
+  late final List<UserSettings> _testingResponse;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _defaultSettings = objectBox.getUserSettings(1);
+    _testingResponse = objectBox.getAllSettings();
+    print(_testingResponse.length);
     if(_defaultSettings != null){
       setDefaults(_defaultSettings!);
     }
