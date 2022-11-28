@@ -48,7 +48,8 @@ class _WorkoutCreatorScreenState extends State<WorkoutCreatorScreen> {
                         hintText: 'Search Exercise',
                         contentPadding: EdgeInsets.all(8)),
                     onFieldSubmitted: (String selection) {
-                      print(selection);
+                      searchSubmissionHandler(selection);
+                      Navigator.pop(context);
                     },
                   ),
                 );
@@ -64,9 +65,15 @@ class _WorkoutCreatorScreenState extends State<WorkoutCreatorScreen> {
             ),
           ));
 
-  void addExercise() {
+  void searchSubmissionHandler(String selection) {
+    int selectedID =
+        exerciseList!.indexWhere((element) => element.name == selection);
+    addExercise(selectedID, selection);
+  }
+
+  void addExercise(int id, String name) {
     setState(() {
-      setList.add(Set(exerciseID: null, setCount: 0));
+      setList.add(Set(exerciseName: name, setCount: 0, exerciseID: id));
       print(setList.length);
     });
   }
@@ -109,7 +116,35 @@ class _WorkoutCreatorScreenState extends State<WorkoutCreatorScreen> {
                       setList.removeAt(index);
                     });
                   },
-                  child: const ListTile(title: Text('Text')),
+                  child: ListTile(
+                    leading: SizedBox(
+                      width: MediaQuery.of(context).size.width * .75,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(setList[index].exerciseName),
+                            Text('Sets: ${setList[index].setCount.toString()}'),
+                            IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  setList[index].setCount++;
+                                });
+                              },
+                              icon: const Icon(Icons.add),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                    trailing: setList[index].setCount > 0
+                        ? IconButton(
+                            onPressed: () {},
+                            icon: const Icon(Icons.arrow_drop_down),
+                          )
+                        : const SizedBox(),
+                  ),
                 ),
                 itemCount: setList.length,
               ),

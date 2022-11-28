@@ -1,8 +1,9 @@
 
 class Set{
   int id;
-  int? exerciseID;
+  int exerciseID;
+  String exerciseName;
   int setCount;
 
-  Set({this.id = 0, required this.exerciseID, required this.setCount});
+  Set({this.id = 0, required this.exerciseID, required this.exerciseName, required this.setCount});
 }
