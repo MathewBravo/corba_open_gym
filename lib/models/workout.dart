@@ -1,3 +1,4 @@
+import 'package:corba_open_gym/models/set.dart';
 class Workout {
   int id;
   String name;

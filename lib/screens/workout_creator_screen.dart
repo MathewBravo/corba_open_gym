@@ -1,4 +1,5 @@
 import 'package:corba_open_gym/main.dart';
+import 'package:corba_open_gym/models/workout.dart';
 import 'package:flutter/material.dart';
 import 'package:corba_open_gym/models/set.dart';
 
@@ -21,6 +22,12 @@ class _WorkoutCreatorScreenState extends State<WorkoutCreatorScreen> {
   List<Set> setList = [];
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+
+  @override
   void initState() {
     // TODO: implement initState
     exerciseList = objectBox.getAllLibrary();
@@ -32,12 +39,15 @@ class _WorkoutCreatorScreenState extends State<WorkoutCreatorScreen> {
     super.initState();
   }
 
+  // Widget setCard()
+
   void _openSearchDialog() => showDialog(
       context: context,
       builder: (context) => Dialog(
             child: Autocomplete<String>(
               fieldViewBuilder: ((context, textEditingController, focusNode,
                   onFieldSubmitted) {
+                FocusScope.of(context).requestFocus(focusNode);
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextFormField(
@@ -73,13 +83,14 @@ class _WorkoutCreatorScreenState extends State<WorkoutCreatorScreen> {
 
   void addExercise(int id, String name) {
     setState(() {
-      setList.add(Set(exerciseName: name, setCount: 0, exerciseID: id));
-      print(setList.length);
+      setList.add(Set(exerciseName: name, exerciseID: id));
     });
   }
 
-  void saveWorkout() {}
-
+  void saveWorkout() {
+    Workout testWork = Workout(name: workoutNameController.text, sets: setList);
+    print("${testWork.name} ");
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -110,40 +121,67 @@ class _WorkoutCreatorScreenState extends State<WorkoutCreatorScreen> {
               ListView.builder(
                 shrinkWrap: true,
                 itemBuilder: (context, index) => Dismissible(
-                  key: UniqueKey(),
+                  key: ValueKey(setList),
                   onDismissed: (DismissDirection direction) {
                     setState(() {
                       setList.removeAt(index);
                     });
                   },
-                  child: ListTile(
-                    leading: SizedBox(
-                      width: MediaQuery.of(context).size.width * .75,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(setList[index].exerciseName),
-                            Text('Sets: ${setList[index].setCount.toString()}'),
-                            IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  setList[index].setCount++;
-                                });
-                              },
-                              icon: const Icon(Icons.add),
-                            )
-                          ],
-                        ),
+                  child: Card(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 15, vertical: 8),
+                      child: Column(
+                        children: [
+                          Text(setList[index].exerciseName),
+                          Row(
+                            mainAxisAlignment:
+                                MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text('Sets'),
+                              const SizedBox(
+                                width: 30,
+                              ),
+                              Row(
+                                children: [
+                                  IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        setList[index].setCount++;
+                                      });
+                                    },
+                                    icon: const Icon(Icons.add),
+                                  ),
+                                  const SizedBox(width: 5),
+                                  IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        if (setList[index].setCount > 0) {
+                                          setList[index].setCount--;
+                                        }
+                                      });
+                                    },
+                                    icon: const Icon(Icons.remove),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(width: 5),
+                              Expanded(
+                                  flex: 4,
+                                  child: Align(
+                                      alignment: Alignment.centerRight,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            right: 35.0),
+                                        child: Text(setList[index]
+                                            .setCount
+                                            .toString()),
+                                      ))),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
-                    trailing: setList[index].setCount > 0
-                        ? IconButton(
-                            onPressed: () {},
-                            icon: const Icon(Icons.arrow_drop_down),
-                          )
-                        : const SizedBox(),
                   ),
                 ),
                 itemCount: setList.length,

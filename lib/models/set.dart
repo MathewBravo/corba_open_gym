@@ -5,5 +5,5 @@ class Set{
   String exerciseName;
   int setCount;
 
-  Set({this.id = 0, required this.exerciseID, required this.exerciseName, required this.setCount});
+  Set({this.id = 0, required this.exerciseID, required this.exerciseName, this.setCount = 1});
 }
