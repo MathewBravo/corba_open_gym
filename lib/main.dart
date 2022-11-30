@@ -2,6 +2,7 @@ import 'package:corba_open_gym/screens/exercise_library_screen.dart';
 import 'package:corba_open_gym/screens/home_screen.dart';
 import 'package:corba_open_gym/screens/how_to_screen.dart';
 import 'package:corba_open_gym/screens/plan_maker_screen.dart';
+import 'package:corba_open_gym/screens/run_workout_screen.dart';
 import 'package:corba_open_gym/screens/user_settings_screen.dart';
 import 'package:corba_open_gym/screens/workout_creator_screen.dart';
 import 'package:corba_open_gym/screens/workouts_screen.dart';

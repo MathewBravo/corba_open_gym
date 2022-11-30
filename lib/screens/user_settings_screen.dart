@@ -33,7 +33,6 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
     super.initState();
     _defaultSettings = objectBox.getUserSettings(1);
     _testingResponse = objectBox.getAllSettings();
-    print(_testingResponse.length);
     if(_defaultSettings != null){
       setDefaults(_defaultSettings!);
     }

@@ -19,7 +19,7 @@ class _WorkoutCreatorScreenState extends State<WorkoutCreatorScreen> {
   List<Exercise>? exerciseList;
   List<String> exerciseNames = [];
   String selectedExercise = '';
-  List<Set> setList = [];
+  List<Sets> setList = [];
 
   @override
   void dispose() {
@@ -31,11 +31,9 @@ class _WorkoutCreatorScreenState extends State<WorkoutCreatorScreen> {
   void initState() {
     // TODO: implement initState
     exerciseList = objectBox.getAllLibrary();
-    print(exerciseList!.length);
     for (Exercise exer in exerciseList!) {
       exerciseNames.add(exer.name);
     }
-    print(exerciseNames);
     super.initState();
   }
 
@@ -83,13 +81,15 @@ class _WorkoutCreatorScreenState extends State<WorkoutCreatorScreen> {
 
   void addExercise(int id, String name) {
     setState(() {
-      setList.add(Set(exerciseName: name, exerciseID: id));
+      setList.add(Sets(exerciseName: name, exerciseID: id));
     });
   }
 
-  void saveWorkout() {
-    Workout testWork = Workout(name: workoutNameController.text, sets: setList);
-    print("${testWork.name} ");
+  void saveWorkout(BuildContext context) {
+    Workout workout = Workout(name: workoutNameController.text);
+    workout.sets.addAll(setList);
+    final workoutStore = objectBox.insertNewWorkout(workout);
+    Navigator.pop(context);
   }
   @override
   Widget build(BuildContext context) {
@@ -98,7 +98,7 @@ class _WorkoutCreatorScreenState extends State<WorkoutCreatorScreen> {
           title: const Text('Workout Creator'),
           actions: [
             IconButton(
-              onPressed: saveWorkout,
+              onPressed:  () => saveWorkout(context),
               icon: const Icon(Icons.save),
             )
           ],
@@ -199,7 +199,7 @@ class _WorkoutCreatorScreenState extends State<WorkoutCreatorScreen> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   ElevatedButton(
-                    onPressed: saveWorkout,
+                    onPressed: () => saveWorkout(context),
                     child: const Text('Save'),
                   ),
                 ],

@@ -15,7 +15,9 @@ import 'package:objectbox/objectbox.dart';
 import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
 
 import 'models/exercises.dart';
+import 'models/set.dart';
 import 'models/user_settings.dart';
+import 'models/workout.dart';
 
 export 'package:objectbox/objectbox.dart'; // so that callers only have to import this file
 
@@ -47,7 +49,7 @@ final _entities = <ModelEntity>[
   ModelEntity(
       id: const IdUid(3, 310609718755454316),
       name: 'Exercise',
-      lastPropertyId: const IdUid(5, 1106314583225228587),
+      lastPropertyId: const IdUid(6, 5680197764092399712),
       flags: 0,
       properties: <ModelProperty>[
         ModelProperty(
@@ -74,9 +76,67 @@ final _entities = <ModelEntity>[
             id: const IdUid(5, 1106314583225228587),
             name: 'barInKG',
             type: 1,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(6, 5680197764092399712),
+            name: 'assisted',
+            type: 1,
             flags: 0)
       ],
       relations: <ModelRelation>[],
+      backlinks: <ModelBacklink>[]),
+  ModelEntity(
+      id: const IdUid(4, 182923645590558587),
+      name: 'Sets',
+      lastPropertyId: const IdUid(4, 5223607545871947695),
+      flags: 0,
+      properties: <ModelProperty>[
+        ModelProperty(
+            id: const IdUid(1, 8225586493883258762),
+            name: 'id',
+            type: 6,
+            flags: 1),
+        ModelProperty(
+            id: const IdUid(2, 6911501507478277295),
+            name: 'exerciseID',
+            type: 6,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(3, 1858484147013570422),
+            name: 'exerciseName',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(4, 5223607545871947695),
+            name: 'setCount',
+            type: 6,
+            flags: 0)
+      ],
+      relations: <ModelRelation>[],
+      backlinks: <ModelBacklink>[]),
+  ModelEntity(
+      id: const IdUid(5, 4834217453083379429),
+      name: 'Workout',
+      lastPropertyId: const IdUid(2, 7632508873754433893),
+      flags: 0,
+      properties: <ModelProperty>[
+        ModelProperty(
+            id: const IdUid(1, 2802401813039320536),
+            name: 'id',
+            type: 6,
+            flags: 1),
+        ModelProperty(
+            id: const IdUid(2, 7632508873754433893),
+            name: 'name',
+            type: 9,
+            flags: 0)
+      ],
+      relations: <ModelRelation>[
+        ModelRelation(
+            id: const IdUid(1, 2050390136599058671),
+            name: 'sets',
+            targetId: const IdUid(4, 182923645590558587))
+      ],
       backlinks: <ModelBacklink>[])
 ];
 
@@ -100,9 +160,9 @@ Future<Store> openStore(
 ModelDefinition getObjectBoxModel() {
   final model = ModelInfo(
       entities: _entities,
-      lastEntityId: const IdUid(3, 310609718755454316),
+      lastEntityId: const IdUid(5, 4834217453083379429),
       lastIndexId: const IdUid(0, 0),
-      lastRelationId: const IdUid(0, 0),
+      lastRelationId: const IdUid(1, 2050390136599058671),
       lastSequenceId: const IdUid(0, 0),
       retiredEntityUids: const [5527646497449331125],
       retiredIndexUids: const [],
@@ -154,12 +214,13 @@ ModelDefinition getObjectBoxModel() {
           final nameOffset = fbb.writeString(object.name);
           final bodypartsOffset = fbb.writeList(
               object.bodyparts.map(fbb.writeString).toList(growable: false));
-          fbb.startTable(6);
+          fbb.startTable(7);
           fbb.addInt64(0, object.id);
           fbb.addOffset(1, nameOffset);
           fbb.addOffset(2, bodypartsOffset);
           fbb.addFloat64(3, object.barWeight);
           fbb.addBool(4, object.barInKG);
+          fbb.addBool(5, object.assisted);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -169,6 +230,8 @@ ModelDefinition getObjectBoxModel() {
 
           final object = Exercise(
               id: const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0),
+              assisted: const fb.BoolReader()
+                  .vTableGet(buffer, rootOffset, 14, false),
               name: const fb.StringReader(asciiOptimization: true)
                   .vTableGet(buffer, rootOffset, 6, ''),
               barWeight:
@@ -180,6 +243,68 @@ ModelDefinition getObjectBoxModel() {
               barInKG: const fb.BoolReader()
                   .vTableGet(buffer, rootOffset, 12, false));
 
+          return object;
+        }),
+    Sets: EntityDefinition<Sets>(
+        model: _entities[2],
+        toOneRelations: (Sets object) => [],
+        toManyRelations: (Sets object) => {},
+        getId: (Sets object) => object.id,
+        setId: (Sets object, int id) {
+          object.id = id;
+        },
+        objectToFB: (Sets object, fb.Builder fbb) {
+          final exerciseNameOffset = fbb.writeString(object.exerciseName);
+          fbb.startTable(5);
+          fbb.addInt64(0, object.id);
+          fbb.addInt64(1, object.exerciseID);
+          fbb.addOffset(2, exerciseNameOffset);
+          fbb.addInt64(3, object.setCount);
+          fbb.finish(fbb.endTable());
+          return object.id;
+        },
+        objectFromFB: (Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+
+          final object = Sets(
+              id: const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0),
+              exerciseID:
+                  const fb.Int64Reader().vTableGet(buffer, rootOffset, 6, 0),
+              exerciseName: const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 8, ''),
+              setCount:
+                  const fb.Int64Reader().vTableGet(buffer, rootOffset, 10, 0));
+
+          return object;
+        }),
+    Workout: EntityDefinition<Workout>(
+        model: _entities[3],
+        toOneRelations: (Workout object) => [],
+        toManyRelations: (Workout object) =>
+            {RelInfo<Workout>.toMany(1, object.id): object.sets},
+        getId: (Workout object) => object.id,
+        setId: (Workout object, int id) {
+          object.id = id;
+        },
+        objectToFB: (Workout object, fb.Builder fbb) {
+          final nameOffset = fbb.writeString(object.name);
+          fbb.startTable(3);
+          fbb.addInt64(0, object.id);
+          fbb.addOffset(1, nameOffset);
+          fbb.finish(fbb.endTable());
+          return object.id;
+        },
+        objectFromFB: (Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+
+          final object = Workout(
+              id: const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0),
+              name: const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 6, ''));
+          InternalToManyAccess.setRelInfo(object.sets, store,
+              RelInfo<Workout>.toMany(1, object.id), store.box<Workout>());
           return object;
         })
   };
@@ -221,4 +346,39 @@ class Exercise_ {
   /// see [Exercise.barInKG]
   static final barInKG =
       QueryBooleanProperty<Exercise>(_entities[1].properties[4]);
+
+  /// see [Exercise.assisted]
+  static final assisted =
+      QueryBooleanProperty<Exercise>(_entities[1].properties[5]);
+}
+
+/// [Sets] entity fields to define ObjectBox queries.
+class Sets_ {
+  /// see [Sets.id]
+  static final id = QueryIntegerProperty<Sets>(_entities[2].properties[0]);
+
+  /// see [Sets.exerciseID]
+  static final exerciseID =
+      QueryIntegerProperty<Sets>(_entities[2].properties[1]);
+
+  /// see [Sets.exerciseName]
+  static final exerciseName =
+      QueryStringProperty<Sets>(_entities[2].properties[2]);
+
+  /// see [Sets.setCount]
+  static final setCount =
+      QueryIntegerProperty<Sets>(_entities[2].properties[3]);
+}
+
+/// [Workout] entity fields to define ObjectBox queries.
+class Workout_ {
+  /// see [Workout.id]
+  static final id = QueryIntegerProperty<Workout>(_entities[3].properties[0]);
+
+  /// see [Workout.name]
+  static final name = QueryStringProperty<Workout>(_entities[3].properties[1]);
+
+  /// see [Workout.sets]
+  static final sets =
+      QueryRelationToMany<Workout, Sets>(_entities[3].relations[0]);
 }

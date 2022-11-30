@@ -29,7 +29,7 @@
     },
     {
       "id": "3:310609718755454316",
-      "lastPropertyId": "5:1106314583225228587",
+      "lastPropertyId": "6:5680197764092399712",
       "name": "Exercise",
       "properties": [
         {
@@ -57,14 +57,73 @@
           "id": "5:1106314583225228587",
           "name": "barInKG",
           "type": 1
+        },
+        {
+          "id": "6:5680197764092399712",
+          "name": "assisted",
+          "type": 1
         }
       ],
       "relations": []
+    },
+    {
+      "id": "4:182923645590558587",
+      "lastPropertyId": "4:5223607545871947695",
+      "name": "Sets",
+      "properties": [
+        {
+          "id": "1:8225586493883258762",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:6911501507478277295",
+          "name": "exerciseID",
+          "type": 6
+        },
+        {
+          "id": "3:1858484147013570422",
+          "name": "exerciseName",
+          "type": 9
+        },
+        {
+          "id": "4:5223607545871947695",
+          "name": "setCount",
+          "type": 6
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "5:4834217453083379429",
+      "lastPropertyId": "2:7632508873754433893",
+      "name": "Workout",
+      "properties": [
+        {
+          "id": "1:2802401813039320536",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:7632508873754433893",
+          "name": "name",
+          "type": 9
+        }
+      ],
+      "relations": [
+        {
+          "id": "1:2050390136599058671",
+          "name": "sets",
+          "targetId": "4:182923645590558587"
+        }
+      ]
     }
   ],
-  "lastEntityId": "3:310609718755454316",
+  "lastEntityId": "5:4834217453083379429",
   "lastIndexId": "0:0",
-  "lastRelationId": "0:0",
+  "lastRelationId": "1:2050390136599058671",
   "lastSequenceId": "0:0",
   "modelVersion": 5,
   "modelVersionParserMinimum": 5,

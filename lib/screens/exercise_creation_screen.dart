@@ -52,8 +52,6 @@ class _ExerciseCreationScreenState extends State<ExerciseCreationScreen> {
     createdExercise.barInKG = barInKG;
     _filters.add('All');
     createdExercise.bodyparts = _filters;
-    print(
-        '${createdExercise.name}, ${createdExercise.barWeight}, ${createdExercise.barInKG}, ${createdExercise.bodyparts}');
   }
 
   Iterable<Widget> get actorWidgets {
